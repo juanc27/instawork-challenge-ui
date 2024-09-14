@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 
 useRoute('/members/[id]')
 const route = useRoute()
+const router = useRouter()
 
 const loading = ref(false)
 const member = ref(null)
@@ -27,6 +28,39 @@ async function fetchData(id) {
     loading.value = false
   }
 }
+
+async function updateMember() {
+  loading.value = true
+  try {
+    const response = await fetch(`/api/members/${member.value.id}/`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(member.value) })
+    member.value = await response.json()
+  }
+  catch (err) {
+    error.value = err.toString()
+  }
+  finally {
+    loading.value = false
+  }
+}
+
+async function deleteMember() {
+  loading.value = true
+  try {
+    const response = await fetch(`/api/members/${member.value.id}/`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
+    member.value = await response.json()
+  }
+  catch (err) {
+    error.value = err.toString()
+  }
+  finally {
+    router.push(`/members/`)
+  }
+}
+
+function back() {
+  // Reset form data or perform other cancel actions
+  router.push(`/members/`)
+}
 </script>
 
 <template>
@@ -39,12 +73,27 @@ async function fetchData(id) {
       {{ error }}
     </div>
 
-    <div v-if="member" class="content">
-      <h2>First Name: {{ member.first_name }}</h2>
-      <h2>Last Name: {{ member.last_name }}</h2>
-      <h2>Email: {{ member.email }}</h2>
-      <h2>Phone: {{ member.phone }}</h2>
-      <h2>Role: {{ member.role }}</h2>
-    </div>
+    <form v-if="member" @submit.prevent="updateMember">
+      <MemberInputs
+        v-model:first-name="member.first_name"
+        v-model:last-name="member.last_name"
+        v-model:email="member.email"
+        v-model:phone="member.phone"
+        v-model:role="member.role"
+      />
+
+      <br>
+      <button type="button" class="text-md m-3 btn" @click="back">
+        Back
+      </button>
+      <br>
+      <button type="button" class="text-md m-3 btn" @click="deleteMember">
+        Delete
+      </button>
+      <br>
+      <button type="submit" class="text-md m-3 btn">
+        Save
+      </button>
+    </form>
   </div>
 </template>
