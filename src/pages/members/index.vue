@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router'
 useRoute('/members/')
 
 const route = useRoute()
+const router = useRouter()
 
 const loading = ref(false)
 const members = ref(null)
@@ -28,11 +29,15 @@ async function fetchData() {
     loading.value = false
   }
 }
+
+function navigateToAdd() {
+  router.push(`/members/add`)
+}
 </script>
 
 <template>
   <nav mt-6 inline-flex gap-2 text-xl>
-    <button icon-btn @click="toggleDark()">
+    <button icon-btn @click="navigateToAdd()">
       <div i-carbon-add dark:i-carbon-add />
     </button>
   </nav>
