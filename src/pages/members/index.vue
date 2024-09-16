@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router'
 useRoute('/members/')
 
 const route = useRoute()
+const router = useRouter()
 
 const loading = ref(false)
 const members = ref(null)
@@ -28,12 +29,16 @@ async function fetchData() {
     loading.value = false
   }
 }
+
+function navigateToAdd() {
+  router.push(`/members/add`)
+}
 </script>
 
 <template>
   <nav mt-6 inline-flex gap-2 text-xl>
-    <button icon-btn @click="toggleDark()">
-      <div i-carbon-add dark:i-carbon-add />
+    <button icon-btn @click="navigateToAdd()">
+      <div i-carbon-add dark:i-carbon-add style="font-size: 30px;" />
     </button>
   </nav>
   <h1>Team Members</h1>
@@ -52,6 +57,7 @@ async function fetchData() {
 
   <MemberItem
     v-for="item in members"
+    :id="item.id"
     :key="item.id"
     :first-name="item.first_name"
     :last-name="item.last_name"
