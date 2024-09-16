@@ -52,7 +52,7 @@ function navigateToAdd() {
     <div v-if="members" class="content">
       <h2>You Have <b>{{ members.length }}</b> team members.</h2>
     </div>
-    <hr class="border-top: 3px solid #bbb;">
+    <hr class="3px solid #bbb; border-top:">
   </div>
 
   <MemberItem
