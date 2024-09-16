@@ -1,46 +1,68 @@
-<script setup lang="ts" generic="T extends any, O extends any">
-defineOptions({
-  name: 'IndexPage',
-})
+<script setup>
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
-const name = ref('')
+useRoute('/')
 
+const route = useRoute()
 const router = useRouter()
-function go() {
-  if (name.value)
-    router.push(`/hi/${encodeURIComponent(name.value)}`)
+
+const loading = ref(false)
+const members = ref(null)
+const error = ref(null)
+
+// watch the params of the route to fetch the data again
+watch(() => route.params.id, fetchData, { immediate: true })
+
+async function fetchData() {
+  error.value = members.value = null
+  loading.value = true
+
+  try {
+    const response = await fetch(`/api/members/`)
+    members.value = await response.json()
+  }
+  catch (err) {
+    error.value = err.toString()
+  }
+  finally {
+    loading.value = false
+  }
+}
+
+function navigateToAdd() {
+  router.push(`/add`)
 }
 </script>
 
 <template>
-  <div>
-    <div i-carbon-campsite inline-block text-4xl />
-    <p>
-      <a rel="noreferrer" href="https://github.com/antfu-collective/vitesse-lite" target="_blank">
-        Vitesse Lite
-      </a>
-    </p>
-    <p>
-      <em text-sm op75>Opinionated Vite Starter Template</em>
-    </p>
-
-    <div py-4 />
-
-    <TheInput
-      v-model="name"
-      placeholder="What's your name?"
-      autocomplete="false"
-      @keydown.enter="go"
-    />
-
-    <div>
-      <button
-        class="m-3 text-sm btn"
-        :disabled="!name"
-        @click="go"
-      >
-        Go
-      </button>
+  <nav mt-6 inline-flex gap-2 text-xl>
+    <button icon-btn @click="navigateToAdd()">
+      <div i-carbon-add dark:i-carbon-add style="font-size: 30px;" />
+    </button>
+  </nav>
+  <h1>Team Members</h1>
+  <div class="number_of_members">
+    <div v-if="loading" class="loading">
+      Loading...
     </div>
+    <div v-if="error" class="error">
+      {{ error }}
+    </div>
+    <div v-if="members" class="content">
+      <h2>You Have <b>{{ members.length }}</b> team members.</h2>
+    </div>
+    <hr class="border-top: 3px solid #bbb;">
   </div>
+
+  <MemberItem
+    v-for="item in members"
+    :id="item.id"
+    :key="item.id"
+    :first-name="item.first_name"
+    :last-name="item.last_name"
+    :email="item.email"
+    :phone="item.phone"
+    :role="item.role"
+  />
 </template>
