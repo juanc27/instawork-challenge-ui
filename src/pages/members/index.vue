@@ -38,7 +38,7 @@ function navigateToAdd() {
 <template>
   <nav mt-6 inline-flex gap-2 text-xl>
     <button icon-btn @click="navigateToAdd()">
-      <div i-carbon-add dark:i-carbon-add />
+      <div i-carbon-add dark:i-carbon-add style="font-size: 30px;" />
     </button>
   </nav>
   <h1>Team Members</h1>
