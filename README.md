@@ -4,7 +4,7 @@
 
 - Node.js v18+ or 20+
 - pnpm (If you don't have pnpm installed, run: npm install -g pnpm)
-- [Running API server](https://github.com/juanc27/instawork-challenge-api)\
+- Have a running [API server](https://github.com/juanc27/instawork-challenge-api)
 
 ## Install
 
