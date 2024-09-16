@@ -52,10 +52,10 @@ async function fetchData() {
 
   <MemberItem
     v-for="item in members"
-    :key="item.id"
     :id="item.id"
-    :firstName="item.first_name"
-    :lastName="item.last_name"
+    :key="item.id"
+    :first-name="item.first_name"
+    :last-name="item.last_name"
     :email="item.email"
     :phone="item.phone"
     :role="item.role"
