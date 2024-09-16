@@ -36,7 +36,7 @@ async function updateMember() {
     const response = await fetch(`/api/members/${member.value.id}/`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(member.value) })
     if (!response.ok) {
       const message = await response.text()
-      error.value = "Errors: " + message
+      error.value = `Errors: ${message}`
       return
     }
     member.value = await response.json()
@@ -56,7 +56,7 @@ async function deleteMember() {
     const response = await fetch(`/api/members/${member.value.id}/`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
     if (!response.ok) {
       const message = await response.text()
-      error.value = "Errors: " + message
+      error.value = `Errors: ${message}`
       return
     }
     router.push(`/`)
