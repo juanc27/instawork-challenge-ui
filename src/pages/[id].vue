@@ -31,8 +31,14 @@ async function fetchData(id) {
 
 async function updateMember() {
   loading.value = true
+  error.value = null
   try {
     const response = await fetch(`/api/members/${member.value.id}/`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(member.value) })
+    if (!response.ok) {
+      const message = await response.text()
+      error.value = "Errors: " + message
+      return
+    }
     member.value = await response.json()
   }
   catch (err) {
@@ -45,15 +51,18 @@ async function updateMember() {
 
 async function deleteMember() {
   loading.value = true
+  error.value = null
   try {
     const response = await fetch(`/api/members/${member.value.id}/`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
-    member.value = await response.json()
+    if (!response.ok) {
+      const message = await response.text()
+      error.value = "Errors: " + message
+      return
+    }
+    router.push(`/`)
   }
   catch (err) {
     error.value = err.toString()
-  }
-  finally {
-    router.push(`/`)
   }
 }
 
