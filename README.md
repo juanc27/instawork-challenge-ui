@@ -13,6 +13,7 @@
 ## Run
 
 - `pnpm run dev`
+- Open a web browser and go to http://localhost:3333/
 
 ## Features
 
