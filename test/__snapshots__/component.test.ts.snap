@@ -1,3 +1,13 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`component of TheCounter.vue > should render 1`] = `"<div>10 <button class="inc"> + </button><button class="dec"> - </button></div>"`;
+exports[`component of MemberItem.vue > should render 1`] = `
+"<a href="1">
+  <div>
+    <p>Name: John Doe <span>(admin)</span></p>
+    <p>Email: test@test.com</p>
+    <p>Phone: 1234567890</p>
+    <hr class="3px solid #bbb; border-top:">
+    <hr>
+  </div>
+</a>"
+`;

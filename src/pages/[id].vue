@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
-useRoute('/members/[id]')
+useRoute('/[id]')
 const route = useRoute()
 const router = useRouter()
 
@@ -53,13 +53,13 @@ async function deleteMember() {
     error.value = err.toString()
   }
   finally {
-    router.push(`/members/`)
+    router.push(`/`)
   }
 }
 
 function back() {
   // Reset form data or perform other cancel actions
-  router.push(`/members/`)
+  router.push(`/`)
 }
 </script>
 

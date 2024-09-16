@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 
-useRoute('/members/add')
+useRoute('/add')
 const router = useRouter()
 
 const loading = ref(false)
@@ -26,13 +26,13 @@ async function addMember() {
     error.value = err.toString()
   }
   finally {
-    router.push(`/members/`)
+    router.push(`/`)
   }
 }
 
 function back() {
   // Reset form data or perform other cancel actions
-  router.push(`/members/`)
+  router.push(`/`)
 }
 </script>
 
