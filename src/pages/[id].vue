@@ -50,7 +50,7 @@ async function updateMember() {
 }
 
 async function deleteMember() {
-  if (confirm("Do you really want to delete this member?")) {
+  if (confirm('Do you really want to delete this member?')) { // eslint-disable-line no-alert
     loading.value = true
     error.value = null
     try {
