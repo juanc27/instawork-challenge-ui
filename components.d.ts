@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    MemberAmountHeadline: typeof import('./src/components/MemberAmountHeadline.vue')['default']
     MemberInputs: typeof import('./src/components/MemberInputs.vue')['default']
     MemberItem: typeof import('./src/components/MemberItem.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

@@ -49,9 +49,7 @@ function navigateToAdd() {
     <div v-if="error" class="error">
       {{ error }}
     </div>
-    <div v-if="members" class="content">
-      <h2>You Have <b>{{ members.length }}</b> team members.</h2>
-    </div>
+    <MemberAmountHeadline v-if="members" :amount="members.length" />
     <hr class="3px solid #bbb; border-top:">
   </div>
 
