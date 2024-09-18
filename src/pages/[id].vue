@@ -50,19 +50,24 @@ async function updateMember() {
 }
 
 async function deleteMember() {
-  loading.value = true
-  error.value = null
-  try {
-    const response = await fetch(`/api/members/${member.value.id}/`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
-    if (!response.ok) {
-      const message = await response.text()
-      error.value = `Errors: ${message}`
-      return
+  if (confirm("Do you really want to delete this member?")) {
+    loading.value = true
+    error.value = null
+    try {
+      const response = await fetch(`/api/members/${member.value.id}/`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
+      if (!response.ok) {
+        const message = await response.text()
+        error.value = `Errors: ${message}`
+        return
+      }
+      router.push(`/`)
     }
-    router.push(`/`)
-  }
-  catch (err) {
-    error.value = err.toString()
+    catch (err) {
+      error.value = err.toString()
+    }
+    finally {
+      loading.value = false
+    }
   }
 }
 
