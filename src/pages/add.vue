@@ -15,15 +15,18 @@ member.value = {
   role: 'regular',
 }
 const error = ref(null)
+const inputErrors = ref(null)
 
 async function addMember() {
   loading.value = true
   error.value = null
+  inputErrors.value = null
   try {
     const response = await fetch(`/api/members/`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(member.value) })
     if (!response.ok) {
-      const message = await response.text()
-      error.value = `Errors: ${message}`
+      const errorMessage = await response.json()
+      error.value = `Error: Bad Request - Check individual fields for errors`
+      inputErrors.value = errorMessage
       return
     }
     router.push(`/`)
@@ -59,6 +62,7 @@ function back() {
         v-model:email="member.email"
         v-model:phone="member.phone"
         v-model:role="member.role"
+        v-model:input-errors="inputErrors"
       />
 
       <br>
