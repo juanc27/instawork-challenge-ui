@@ -9,6 +9,7 @@ const router = useRouter()
 const loading = ref(false)
 const member = ref(null)
 const error = ref(null)
+const inputErrors = ref(null)
 
 // watch the params of the route to fetch the data again
 watch(() => route.params.id, fetchData, { immediate: true })
@@ -35,8 +36,9 @@ async function updateMember() {
   try {
     const response = await fetch(`/api/members/${member.value.id}/`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(member.value) })
     if (!response.ok) {
-      const message = await response.text()
-      error.value = `Errors: ${message}`
+      const errorMessage = await response.json()
+      error.value = `Error: Bad Request - Check individual fields for errors`
+      inputErrors.value = errorMessage
       return
     }
     member.value = await response.json()
@@ -94,6 +96,7 @@ function back() {
         v-model:email="member.email"
         v-model:phone="member.phone"
         v-model:role="member.role"
+        v-model:input-errors="inputErrors"
       />
 
       <br>
