@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
-import type { Member } from 'src/types/Member'
+import { useRoute, useRouter } from 'vue-router'
+import type { Member } from '../types/Member'
 
 useRoute('/add')
 const router = useRouter()
@@ -17,7 +17,7 @@ member.value = {
   role: 'regular',
 }
 const error = ref<string | null>(null)
-const inputErrors = ref<string | null>(null)
+const inputErrors = ref<Record<string, string> | null>(null)
 
 async function addMember() {
   loading.value = true
