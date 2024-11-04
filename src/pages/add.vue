@@ -17,7 +17,7 @@ member.value = {
   role: 'regular',
 }
 const error = ref<string | null>(null)
-const inputErrors = ref<Record<string, string> | null>(null)
+const inputErrors = ref<Record<string, string[]> | null>(null)
 
 async function addMember() {
   loading.value = true
