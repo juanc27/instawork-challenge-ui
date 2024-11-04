@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import type { Member } from 'src/types/Member'
-
-// Define route parameters structure
-interface RouteParams {
-  id?: string
-}
+import type { Member } from '../types/Member'
+import type { RouteParams } from '../types/RouteParams'
 
 const route = useRoute() as { params: RouteParams }
 const router = useRouter()

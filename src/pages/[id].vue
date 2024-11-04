@@ -1,29 +1,37 @@
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import type { Member } from '../types/Member'
+import type { RouteParams } from '../types/RouteParams'
 
 useRoute('/[id]')
-const route = useRoute()
+const route = useRoute() as { params: RouteParams }
 const router = useRouter()
 
-const loading = ref(false)
-const member = ref(null)
-const error = ref(null)
-const inputErrors = ref(null)
+const loading = ref<boolean>(false)
+const member = ref<Member | null>(null)
+const error = ref<string | null>(null)
+const inputErrors = ref<Record<string, string[]> | null>(null)
 
 // watch the params of the route to fetch the data again
-watch(() => route.params.id, fetchData, { immediate: true })
+watch(() => route.params.id, (id) => {
+  if (id)
+    fetchData(Number(id))
+}, { immediate: true })
 
-async function fetchData(id) {
+async function fetchData(id: number) {
   error.value = member.value = null
   loading.value = true
 
   try {
     const response = await fetch(`/api/members/${id}/`)
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`)
+    }
     member.value = await response.json()
   }
   catch (err) {
-    error.value = err.toString()
+    error.value = (err as Error).toString()
   }
   finally {
     loading.value = false
@@ -31,6 +39,9 @@ async function fetchData(id) {
 }
 
 async function updateMember() {
+  if (!member.value)
+    return
+
   loading.value = true
   error.value = null
   try {
@@ -44,7 +55,7 @@ async function updateMember() {
     member.value = await response.json()
   }
   catch (err) {
-    error.value = err.toString()
+    error.value = (err as Error).toString()
   }
   finally {
     loading.value = false
@@ -52,6 +63,9 @@ async function updateMember() {
 }
 
 async function deleteMember() {
+  if (!member.value)
+    return
+
   if (confirm('Do you really want to delete this member?')) { // eslint-disable-line no-alert
     loading.value = true
     error.value = null
@@ -65,7 +79,7 @@ async function deleteMember() {
       router.push(`/`)
     }
     catch (err) {
-      error.value = err.toString()
+      error.value = (err as Error).toString()
     }
     finally {
       loading.value = false
