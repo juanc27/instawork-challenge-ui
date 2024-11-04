@@ -11,7 +11,7 @@ interface RouteParams {
 const route = useRoute() as { params: RouteParams }
 const router = useRouter()
 
-const loading = ref(false)
+const loading = ref<boolean>(false)
 const members = ref<Member[] | null>(null)
 const error = ref<string | null>(null)
 
