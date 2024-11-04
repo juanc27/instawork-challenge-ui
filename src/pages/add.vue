@@ -1,21 +1,23 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import type { Member } from 'src/types/Member'
 
 useRoute('/add')
 const router = useRouter()
 
-const loading = ref(false)
-const member = ref(null)
+const loading = ref<boolean>(false)
+const member = ref<Member | null>(null)
 member.value = {
+  id: 0,
   first_name: '',
   last_name: '',
   email: '',
   phone: '',
   role: 'regular',
 }
-const error = ref(null)
-const inputErrors = ref(null)
+const error = ref<string | null>(null)
+const inputErrors = ref<string | null>(null)
 
 async function addMember() {
   loading.value = true
@@ -32,7 +34,7 @@ async function addMember() {
     router.push(`/`)
   }
   catch (err) {
-    error.value = err.toString()
+    error.value = (err as Error).toString()
   }
   finally {
     loading.value = false
@@ -40,7 +42,6 @@ async function addMember() {
 }
 
 function back() {
-  // Reset form data or perform other cancel actions
   router.push(`/`)
 }
 </script>
