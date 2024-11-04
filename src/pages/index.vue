@@ -1,29 +1,37 @@
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import type { Member } from 'src/types/Member'
 
-useRoute('/')
+// Define route parameters structure
+interface RouteParams {
+  id?: string
+}
 
-const route = useRoute()
+const route = useRoute() as { params: RouteParams }
 const router = useRouter()
 
 const loading = ref(false)
-const members = ref(null)
-const error = ref(null)
+const members = ref<Member[] | null>(null)
+const error = ref<string | null>(null)
 
 // watch the params of the route to fetch the data again
 watch(() => route.params.id, fetchData, { immediate: true })
 
 async function fetchData() {
-  error.value = members.value = null
+  error.value = null
+  members.value = null
   loading.value = true
 
   try {
     const response = await fetch(`/api/members/`)
-    members.value = await response.json()
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`)
+    }
+    members.value = await response.json() as Member[]
   }
   catch (err) {
-    error.value = err.toString()
+    error.value = (err as Error).toString()
   }
   finally {
     loading.value = false
