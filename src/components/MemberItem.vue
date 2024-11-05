@@ -6,7 +6,7 @@ const props = defineProps<Member>()
 </script>
 
 <template>
-  <a :href="props.id ? `/${props.id}` : '#'">
+  <a :href="props.id ? `${props.id}` : '#'">
     <div>
       <p>Name: {{ props.first_name }} {{ props.last_name }} <span v-if="role === 'admin'">(admin)</span></p>
       <p>Email: {{ props.email }}</p>
