@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import type { InputErrors } from '~/types/InputErrors'
 import type { Member } from '../types/Member'
 import type { RouteParams } from '../types/RouteParams'
 
@@ -11,7 +12,7 @@ const router = useRouter()
 const loading = ref<boolean>(false)
 const member = ref<Member | null>(null)
 const error = ref<string | null>(null)
-const inputErrors = ref<Record<string, string[]> | null>(null)
+const inputErrors = ref<InputErrors | null>(null)
 
 // watch the params of the route to fetch the data again
 watch(() => route.params.id, (id) => {

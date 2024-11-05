@@ -1,23 +1,23 @@
-<script setup>
-const firstName = defineModel('firstName')
-const lastName = defineModel('lastName')
-const email = defineModel('email')
-const phone = defineModel('phone')
-const role = defineModel('role')
-const inputErrors = defineModel('inputErrors')
+<script setup lang="ts">
+import { defineModel } from 'vue'
+import type { InputErrors } from '~/types/InputErrors'
 
-function checkErrors(key) {
+const firstName = defineModel<string>('firstName')
+const lastName = defineModel<string>('lastName')
+const email = defineModel<string>('email')
+const phone = defineModel<string>('phone')
+const role = defineModel<string>('role')
+const inputErrors = defineModel<InputErrors | null>('inputErrors')
+
+function checkErrors(key: keyof InputErrors): boolean {
   if (inputErrors.value && inputErrors.value[key]) {
     return true
   }
   return false
 }
 
-function getErrorMessage(key) {
-  if (inputErrors.value && inputErrors.value[key]) {
-    return inputErrors.value[key][0]
-  }
-  return ''
+function getErrorMessage(key: keyof InputErrors): string {
+  return inputErrors?.value?.[key]?.[0] || ''
 }
 </script>
 
