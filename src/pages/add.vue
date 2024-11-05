@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import type { Member } from '../types/Member'
+import type { InputErrors } from '~/types/InputErrors'
+import type { Member } from '~/types/Member'
 
 useRoute('/add')
 const router = useRouter()
@@ -17,7 +18,7 @@ member.value = {
   role: 'regular',
 }
 const error = ref<string | null>(null)
-const inputErrors = ref<Record<string, string[]> | null>(null)
+const inputErrors = ref<InputErrors | null>(null)
 
 async function addMember() {
   loading.value = true
@@ -58,12 +59,12 @@ function back() {
 
     <form v-if="member" @submit.prevent="addMember">
       <MemberInputs
-        v-model:first-name="member.first_name"
-        v-model:last-name="member.last_name"
-        v-model:email="member.email"
-        v-model:phone="member.phone"
-        v-model:role="member.role"
-        v-model:input-errors="inputErrors"
+        :first-name="member.first_name"
+        :last-name="member.last_name"
+        :email="member.email"
+        :phone="member.phone"
+        :role="member.role"
+        :input-errors="inputErrors"
       />
 
       <br>
