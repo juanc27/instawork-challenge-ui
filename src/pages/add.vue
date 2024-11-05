@@ -59,12 +59,12 @@ function back() {
 
     <form v-if="member" @submit.prevent="addMember">
       <MemberInputs
-        :first-name="member.first_name"
-        :last-name="member.last_name"
-        :email="member.email"
-        :phone="member.phone"
-        :role="member.role"
-        :input-errors="inputErrors"
+        v-model:first-name="member.first_name"
+        v-model:last-name="member.last_name"
+        v-model:email="member.email"
+        v-model:phone="member.phone"
+        v-model:role="member.role"
+        v-model:input-errors="inputErrors"
       />
 
       <br>
